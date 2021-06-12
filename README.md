@@ -42,3 +42,13 @@ Si no cuenta con la clave SSH, clonar de la siguiente manera:
 │   └── README.md
 └── Others Projects
 ```
+
+## Observaciones
+
+En el archivo MysqlCrud.java se deben completar las siguientes variables
+```bash
+    String url  = "jdbc:mysql://localhost:3306/{{Database Name}}";
+    String user = "{{Mysql user}}";
+    String pass = "{{Mysql password}}";
+```
+Completando con el nombre, usuario y password de su base de datos
