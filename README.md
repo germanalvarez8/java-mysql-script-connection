@@ -8,9 +8,9 @@ de la UNRC en el primer cuatrimestre del año 2021
 1. Instalar Java 8 o superior:
     [java 11 on Oracle](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
 2. Instalar Mysql 8:
-    [Mysql on linux](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04)
-    [Mysql on windows](https://smarttechnicalworld.com/how-to-install-mysql-on-windows-10/)
-    [Mysql on linux](https://www.positronx.io/how-to-install-mysql-on-mac-configure-mysql-in-terminal/)
+    - [Mysql on linux](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04)
+    - [Mysql on windows](https://smarttechnicalworld.com/how-to-install-mysql-on-windows-10/)
+    - [Mysql on linux](https://www.positronx.io/how-to-install-mysql-on-mac-configure-mysql-in-terminal/)
 3. Instalar Git:
 ```bash
     sudo apt install git-all
