@@ -15,7 +15,7 @@ nombre varchar(30),
 apellido varchar(30),
 dirección varchar(30),
 teléfono BigInt UNSIGNED,
-nro_alumno integer NOT NULL,
+nro_alumno integer UNSIGNED AUTO_INCREMENT NOT NULL,
 CONSTRAINT pk_alumno PRIMARY KEY (nro_alumno),
 CONSTRAINT fk_alumno FOREIGN KEY (dni) REFERENCES persona(dni) ON DELETE CASCADE ON UPDATE CASCADE);
 
@@ -30,31 +30,31 @@ CONSTRAINT pk_docente PRIMARY KEY (dni),
 CONSTRAINT fk_docente FOREIGN KEY (dni) REFERENCES persona(dni) ON DELETE CASCADE ON UPDATE CASCADE);
 
 CREATE TABLE materia (
-cod integer NOT NULL,
+cod integer AUTO_INCREMENT NOT NULL,
 nombre varchar(30),
 docente_responsable integer UNSIGNED,
 CONSTRAINT pk_materia PRIMARY KEY (cod),
 CONSTRAINT fk_docente_resp FOREIGN KEY (docente_responsable) REFERENCES docente(dni) ON DELETE CASCADE ON UPDATE CASCADE);
 
 CREATE TABLE facultad (
-código integer NOT NULL,
+código integer AUTO_INCREMENT NOT NULL,
 descripción varchar(30),
 CONSTRAINT pk_facultad PRIMARY KEY (código));
 
 CREATE TABLE cargo (
-código integer NOT NULL,
+código integer AUTO_INCREMENT NOT NULL,
 descripción varchar(30),
 CONSTRAINT pk_cargo PRIMARY KEY (código));
 
 CREATE TABLE actividad (
-código integer NOT NULL,
+código integer AUTO_INCREMENT NOT NULL,
 descripción varchar(30),
 cod_materia integer NOT NULL, 
 CONSTRAINT fk_materia FOREIGN KEY (cod_materia) REFERENCES materia(cod),
 CONSTRAINT pk_actividad PRIMARY KEY (código, cod_materia));
 
 CREATE TABLE resolución (
-código integer NOT NULL,
+código integer AUTO_INCREMENT NOT NULL,
 fecha_hora datetime,
 nota float,
 actividad integer NOT NULL, 
@@ -69,7 +69,7 @@ CREATE TABLE cursa (
 nro_alumno integer UNSIGNED NOT NULL,
 cod_materia integer NOT NULL,
 CONSTRAINT pk_cursa PRIMARY KEY (nro_alumno, cod_materia),
-CONSTRAINT fk_alumno_cursa FOREIGN KEY (nro_alumno) REFERENCES alumno(dni) ON DELETE CASCADE,
+CONSTRAINT fk_alumno_cursa FOREIGN KEY (nro_alumno) REFERENCES alumno(nro_alumno) ON DELETE CASCADE,
 CONSTRAINT fk_materia_cursa FOREIGN KEY (cod_materia) REFERENCES materia(cod) ON DELETE CASCADE ON UPDATE CASCADE);
 
 CREATE TABLE pertenece (
@@ -150,58 +150,58 @@ VALUES
 (75328857, 'María', 'Chico', 'Explanada 45', 3888848707, 'exclusivo'),
 (33546221, 'Noa', 'Mendoza', 'Bloque Izazaga 532', 3888754221, 'semi-exclusivo');
 
-INSERT INTO alumno (dni, nombre, apellido, dirección,  teléfono, nro_alumno)
+INSERT INTO alumno (dni, nombre, apellido, dirección,  teléfono)
 VALUES 
-(43202112, 'Ramiro', 'De la Fuente', 'C/ Cuevas de Ambrosio 74', 3888376833, 1),
-(43202113, 'Débora', 'Echevarría', 'Escuadro 47', 3888737999, 2),
-(23202114, 'Carmela', 'Flores', 'Carretera km60', 3865859073, 3),
-(53202115, 'Macario', 'Muñoz', '98 Tenmile Road', 3888526592, 4),
-(36202116, 'Icíar', 'Vidal', '606 Crim Lane', 3888799588, 5),
-(26202117, 'Marcela', 'Peña', '1174 Frosty Lane', 3715698543, 6),
-(38209751, 'Ceferino', 'Echevarría', 'Cuesta Cinco de Mayo 098', 3846610958, 7),
-(06209346, 'Prudencia', 'Rueda', 'Manzana Jalisco 6306 Esc. 505', 3888559329, 8),
-(66192660, 'Cipriano', 'Puerta', 'Puerta Cinco de Mayo 91', 3327415117, 9),
-(87931319, 'Rufino', 'Barrios', 'Rincón Zapata 9', 3888934372, 10),
-(90450506, 'Mario', 'Ferrández', 'Colonia La otra banda 314', 3878200469, 11),
-(43003444, 'Herminia', 'Cárdenas', 'Muelle Donceles 33', 3781628747, 12),
-(73719122, 'Gerónimo', 'Yuste', 'Masía Hugo 434', 3888489700, 13),
-(03453536, 'Olivia', 'Segovia', 'Mercado Manzanares 89', 3888828037, 14),
-(42013177, 'Iker', 'Gual', 'Plaza Juárez 400', 3888346619, 15),
-(43000679, 'Eladio', 'Vila', 'Manzana Repúplica de Chile', 3888367313, 16),
-(64857997, 'Primitiva', 'Rosado', 'Torrente Polotitlan', 3327454628, 17),
-(18858014, 'Cruz', 'Gomez', 'Camino José Luis Bueno 659', 3777704533, 18),
-(61158307, 'Adalberto', 'Juarez', 'Rampa Manzanares 71', 3888628165, 19);
+(43202112, 'Ramiro', 'De la Fuente', 'C/ Cuevas de Ambrosio 74', 3888376833),
+(43202113, 'Débora', 'Echevarría', 'Escuadro 47', 3888737999),
+(23202114, 'Carmela', 'Flores', 'Carretera km60', 3865859073),
+(53202115, 'Macario', 'Muñoz', '98 Tenmile Road', 3888526592),
+(36202116, 'Icíar', 'Vidal', '606 Crim Lane', 3888799588),
+(26202117, 'Marcela', 'Peña', '1174 Frosty Lane', 3715698543),
+(38209751, 'Ceferino', 'Echevarría', 'Cuesta Cinco de Mayo 098', 3846610958),
+(06209346, 'Prudencia', 'Rueda', 'Manzana Jalisco 6306 Esc. 505', 3888559329),
+(66192660, 'Cipriano', 'Puerta', 'Puerta Cinco de Mayo 91', 3327415117),
+(87931319, 'Rufino', 'Barrios', 'Rincón Zapata 9', 3888934372),
+(90450506, 'Mario', 'Ferrández', 'Colonia La otra banda 314', 3878200469),
+(43003444, 'Herminia', 'Cárdenas', 'Muelle Donceles 33', 3781628747),
+(73719122, 'Gerónimo', 'Yuste', 'Masía Hugo 434', 3888489700),
+(03453536, 'Olivia', 'Segovia', 'Mercado Manzanares 89', 3888828037),
+(42013177, 'Iker', 'Gual', 'Plaza Juárez 400', 3888346619),
+(43000679, 'Eladio', 'Vila', 'Manzana Repúplica de Chile', 3888367313),
+(64857997, 'Primitiva', 'Rosado', 'Torrente Polotitlan', 3327454628),
+(18858014, 'Cruz', 'Gomez', 'Camino José Luis Bueno 659', 3777704533),
+(61158307, 'Adalberto', 'Juarez', 'Rampa Manzanares 71', 3888628165);
 
-INSERT INTO materia (cod, nombre, docente_responsable)
+INSERT INTO materia (nombre, docente_responsable)
 VALUES
-(1, 'Historia Mundial', 40202111),
-(2, 'Quimica organica', 16202118),
-(3, 'Biologia II', 16202118),
-(4, 'Algoritmos I', 16202119),
-(5, 'Derechos Humanos', 36202120),
-(6, 'Comunicacion social', 33546221);
+('Historia Mundial', 40202111),
+('Quimica organica', 16202118),
+('Biologia II', 16202118),
+('Algoritmos I', 16202119),
+('Derechos Humanos', 36202120),
+('Comunicacion social', 33546221);
 
-INSERT INTO facultad (código, descripción) 
+INSERT INTO facultad (descripción) 
 VALUES
-(1, 'Agronomía y veterinaria'),
-(2, 'Ciencias exactas'),
-(3, 'Ingeniería'),
-(4, 'Ciencias humanas'),
-(5, 'Ciencias económicas'),
-(6, 'Urbanismo y arquitectura'),
-(7, 'Ciencias de la salud'),
-(8, 'Comunicación'),
-(9, 'Ciencias naturales');
+('Agronomía y veterinaria'),
+('Ciencias exactas'),
+('Ingeniería'),
+('Ciencias humanas'),
+('Ciencias económicas'),
+('Urbanismo y arquitectura'),
+('Ciencias de la salud'),
+('Comunicación'),
+('Ciencias naturales');
 
-INSERT INTO cargo (código, descripción)
+INSERT INTO cargo (descripción)
 VALUES
-(1, 'Director'),
-(2, 'Administracion'),
-(3, 'Recursos Humanos'),
-(4, 'Limpieza'),
-(5, 'Consejeros'),
-(6, 'Profesor'),
-(7, 'Ayudante');
+('Director'),
+('Administracion'),
+('Recursos Humanos'),
+('Limpieza'),
+('Consejeros'),
+('Profesor'),
+('Ayudante');
 
 INSERT INTO pertenece (dni_docente, codigo_facultad, codigo_cargo)
 VALUES
@@ -215,77 +215,77 @@ VALUES
 (29031937, 9, 6),
 (75328857, 2, 5),
 (33546221, 8, 3);
-
-INSERT INTO actividad (código, descripción, cod_materia)
+ 
+INSERT INTO actividad (descripción, cod_materia)
 VALUES
-(1, 'Tp 1 Quimica Organica', 2),
-(2, 'Integrador de Histora', 1),
-(3, '1er Parcial Algoritmos I', 4),
-(4, '2do Parcial Algoritmos I', 4),
-(5, 'Introduccion a la historia', 1),
-(6, 'Introduccion al derecho', 5),
-(7, 'Bacterias y proteinas I', 3),
-(8, 'Final Biologia I', 3),
-(9, 'Tp Quimica Organica', 2),
-(10, 'Lengua', 6);
+('Tp 1 Quimica Organica', 2),
+('Integrador de Histora', 1),
+('1er Parcial Algoritmos I', 4),
+('2do Parcial Algoritmos I', 4),
+('Introduccion a la historia', 1),
+('Introduccion al derecho', 5),
+('Bacterias y proteinas I', 3),
+('Final Biologia I', 3),
+('Tp Quimica Organica', 2),
+('Lengua', 6);
 
-INSERT INTO resolución (código, fecha_hora, nota, actividad, docente_calificó, nro_alumno)
+INSERT INTO resolución (fecha_hora, nota, actividad, docente_calificó, nro_alumno)
 VALUES
-(1, '2021-04-19 01:21:53', 6, 2, 40202111, 43202112),
-(2, '2021-04-19 03:57:05', 5, 1, 16202118, 43202112),
-(3, '2021-02-23 05:52:11', 8, 1, 16202118, 43202113),
-(4, '2021-05-21 16:04:30', 8, 8, 11353530, 43202113),
-(5, '2021-02-03 13:38:18', 7, 8, 11353530, 23202114),
-(6, '2021-02-08 06:57:53', 9, 3, 16202119, 23202114),
-(7, '2021-03-09 01:45:20', 8, 3, 16202119, 53202115),
-(8, '2021-03-25 18:12:20', 2, 6, 36202120, 53202115),
-(9, '2021-04-13 05:45:05', 2, 6, 36202120, 36202116),
-(10, '2021-01-19 08:08:28', 5, 10, 33546221, 36202116),
-(11, '2021-01-11 06:59:12', 8, 10, 33546221, 26202117),
-(12, '2021-02-01 09:46:53', 10, 2, 40202111, 26202117), 
-(13, '2021-05-25 19:36:49', 10, 5, 40202111, 38209751),
-(14, '2021-03-10 08:52:26', 10, 1, 16202118, 38209751),
-(15, '2021-05-07 06:31:12', 8, 9, 16202118, 06209346),
-(16, '2021-02-24 17:16:22', 9, 8, 11353530, 66192660),
-(17, '2021-01-26 04:55:11', 7, 3, 16202119, 87931319),
-(18, '2021-02-18 23:51:28', 9, 6, 36202120, 90450506),
-(19, '2021-03-30 00:39:22', 5, 10, 33546221, 43003444),
-(20, '2021-05-24 05:37:21', 4, 5, 40202111, 73719122),
-(21, '2021-02-04 07:09:55', 6, 9, 16202118, 03453536),
-(22, '2021-05-03 12:47:40', 5, 8, 11353530, 42013177),
-(23, '2021-04-29 22:05:20', 8, 4, 16202119, 43000679),
-(24, '2021-01-08 13:02:08', 7, 6, 36202120, 64857997),
-(25, '2021-02-05 23:29:08', 9, 10, 33546221, 18858014),
-(26, '2021-03-25 18:12:20', 10, 2, 40202111, 61158307);
+('2021-04-19 01:21:53', 6, 2, 40202111, 1),
+('2021-04-19 03:57:05', 5, 1, 16202118, 1),
+('2021-02-23 05:52:11', 8, 1, 16202118, 2),
+('2021-05-21 16:04:30', 8, 8, 11353530, 2),
+('2021-02-03 13:38:18', 7, 8, 11353530, 3),
+('2021-02-08 06:57:53', 9, 3, 16202119, 3),
+('2021-03-09 01:45:20', 8, 3, 16202119, 4),
+('2021-03-25 18:12:20', 2, 6, 36202120, 4),
+('2021-04-13 05:45:05', 2, 6, 36202120, 5),
+('2021-01-19 08:08:28', 5, 10, 33546221, 5),
+('2021-01-11 06:59:12', 8, 10, 33546221, 6),
+('2021-02-01 09:46:53', 10, 2, 40202111, 6), 
+('2021-05-25 19:36:49', 10, 5, 40202111, 7),
+('2021-03-10 08:52:26', 10, 1, 16202118, 7),
+('2021-05-07 06:31:12', 8, 9, 16202118, 8),
+('2021-02-24 17:16:22', 9, 8, 11353530, 9),
+('2021-01-26 04:55:11', 7, 3, 16202119, 10),
+('2021-02-18 23:51:28', 9, 6, 36202120, 11),
+('2021-03-30 00:39:22', 5, 10, 33546221, 12),
+('2021-05-24 05:37:21', 4, 5, 40202111, 13),
+('2021-02-04 07:09:55', 6, 9, 16202118, 14),
+('2021-05-03 12:47:40', 5, 8, 11353530, 15),
+('2021-04-29 22:05:20', 8, 4, 16202119, 16),
+('2021-01-08 13:02:08', 7, 6, 36202120, 17),
+('2021-02-05 23:29:08', 9, 10, 33546221, 18),
+('2021-03-25 18:12:20', 10, 2, 40202111, 19);
 
 INSERT INTO cursa (nro_alumno, cod_materia)
 VALUES
-(43202112, 1),
-(43202112, 2),
-(43202113, 2),
-(43202113, 3),
-(23202114, 3),
-(23202114, 4),
-(53202115, 4),
-(53202115, 5),
-(36202116, 5),
-(36202116, 6),
-(26202117, 6),
-(26202117, 1),
-(38209751, 1),
-(38209751, 2),
-(06209346, 2),
-(66192660, 3),
-(87931319, 4),
-(90450506, 5),
-(43003444, 6),
-(73719122, 1),
-(03453536, 2),
-(42013177, 3),
-(43000679, 4),
-(64857997, 5),
-(18858014, 6),
-(61158307, 1);
+(1, 1),
+(1, 2),
+(2, 2),
+(2, 3),
+(3, 3),
+(3, 4),
+(4, 4),
+(4, 5),
+(5, 5),
+(5, 6),
+(6, 6),
+(6, 1),
+(7, 1),
+(7, 2),
+(8, 2),
+(9, 3),
+(10, 4),
+(11, 5),
+(12, 6),
+(13, 1),
+(14, 2),
+(15, 3),
+(16, 4),
+(17, 5),
+(18, 6),
+(19, 1);
 
 INSERT INTO asignado (cod_materia, dni_docente)
 VALUES
@@ -298,6 +298,3 @@ VALUES
 (3, 29031937),
 (4, 75328857),
 (6, 33546221);
-
-
-
