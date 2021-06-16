@@ -17,17 +17,14 @@ public class MysqCrud {
         String pass = "tecnicia";
 
         System.out.println("-------- MySQL JDBC Connection ------------");
+        Connection connection = null;
+
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-        } 
-        catch (ClassNotFoundException e) {
-            System.out.println("MySQL JDBC Driver not found !!");
-            return;
-        }
-        System.out.println("MySQL JDBC Driver Registered!");
-        Connection connection = null;
-        try {
+
+            System.out.println("MySQL JDBC Driver Registered!");
+
             connection = DriverManager
                 .getConnection(url, user, pass);
             System.out.println("Bienvenido al sistema de la universiad\n\n");
@@ -46,17 +43,21 @@ public class MysqCrud {
 
                     break;
                 case 3:
-                    System.out.println("Listar alumnos (TODO)");
+                    getStudentsByAssignment(connection, br);
                     
                     break;
                 default:
+                    System.out.println("Valor incorrecto, por favor verifique las tareas disponibles");
                     break;
             }
         } catch (SQLException e) {
             System.out.println("Connection Failed! Check output console");
             System.out.println(e.getMessage());
             return;
-        } finally {
+        } catch (ClassNotFoundException e) {
+            System.out.println("MySQL JDBC Driver not found !!");
+            return;
+        }finally {
             try
             {
                 if(connection != null)
@@ -107,11 +108,13 @@ public class MysqCrud {
     private static void deleteByCode(Connection connection, BufferedReader br) throws SQLException, IOException
     {
         Hashtable<Integer, String> assignments = new Hashtable<Integer, String>();
-        String query = "SELECT cod, nombre FROM materia";
+
+        String query = "select cod, nombre from materia ";
+
         Statement st = connection.createStatement();
         ResultSet rs = st.executeQuery(query);
 
-        System.out.println("Materia a la que pertenece:");
+        System.out.println("Materias activas:\n");
         while (rs.next())
         {
             int id = rs.getInt("cod");
@@ -121,51 +124,61 @@ public class MysqCrud {
 
             System.out.println("[" + id + "] " + name);
         }
-        st.close();
 
+        System.out.println("\nCodigo de actividad a eliminar:");
         String assignmentId = br.readLine();
 
-        System.out.println("Nombre de la actividad:");
-        String assignmentName = br.readLine();
+        String deleteQuery = "delete from materia " +
+            "where cod=" + assignmentId;
 
-        String insertQuery = " insert into actividad (descripción, cod_materia)"
-        + " values (?, ?)";
+        st.executeUpdate(deleteQuery);
+        st.close();
 
-        PreparedStatement preparedStmt = connection.prepareStatement(insertQuery);
-        preparedStmt.setString (1, assignmentName);
-        preparedStmt.setInt (2, Integer.parseInt(assignmentId));
+        System.out.println("Materia eliminada correctamente");
 
-        preparedStmt.execute();
-        
         connection.close();
     }
 
-    private static Boolean getAllPersons(Connection connection) throws SQLException
+    private static void getStudentsByAssignment(Connection connection, BufferedReader br) throws SQLException, IOException
     {
-        // our SQL SELECT query. 
-        // if you only need a few columns, specify them by name instead of using "*"
-        String query = "SELECT * FROM persona";
+        Hashtable<Integer, String> assignments = new Hashtable<Integer, String>();
 
-        // create the java statement
+        String query = "select cod, nombre from materia ";
+
         Statement st = connection.createStatement();
-
-        // execute the query, and get a java resultset
         ResultSet rs = st.executeQuery(query);
-        
-        // iterate through the java resultset
+
+        System.out.println("Materias activas:\n");
         while (rs.next())
         {
-            int id = rs.getInt("dni");
-            String firstName = rs.getString("nombre");
-            String lastName = rs.getString("apellido");
-            String address = rs.getString("dirección");
-            String phone = rs.getString("teléfono");
+            int id = rs.getInt("cod");
+            String name = rs.getString("nombre");
 
-            // print the results
-            System.out.format("%s, %s, %s, %s, %s\n", id, firstName, lastName, address, phone);
+            assignments.put(id, name);
+
+            System.out.println("[" + id + "] " + name);
         }
-        st.close();
 
-        return true;
+        System.out.println("\nCodigo de materia para mostrar alumnos:");
+        String assignmentId = br.readLine();
+
+        String studentsQuery = "SELECT alumno.dni, alumno.nombre FROM materia " +
+            "JOIN cursa ON materia.cod = cursa.cod_materia " +
+            "JOIN alumno ON cursa.nro_alumno = alumno.nro_alumno " +
+            "WHERE materia.cod =" + assignmentId;
+
+        ResultSet studentList = connection.createStatement().executeQuery(studentsQuery);
+
+        System.out.println("Lista de estudiantes para la materia " + assignments.get(Integer.parseInt(assignmentId)));
+        while (studentList.next())
+        {
+            int dni = studentList.getInt("dni");
+            String name = studentList.getString("nombre");
+
+            System.out.println(dni + " | " + name);
+        }
+
+        st.close();
+        connection.close();
     }
 }
